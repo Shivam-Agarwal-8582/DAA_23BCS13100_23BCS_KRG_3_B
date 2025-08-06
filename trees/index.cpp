@@ -1,6 +1,5 @@
 #include<iostream>
 using namespace std;
-
 class node{
     public:
     int data;
@@ -8,69 +7,80 @@ class node{
     node* right;
 
     node(int d){
-        this->data= d;
-        left=NULL;
-        right= nullptr;
+        this->data=d;
+        this->left= NULL;
+        this-> right=NULL;
     }
 };
-node* insert(node* &root){
+
+node* build(node* &root) {
+
+    cout << "Enter the data: " << endl;
     int data;
-    cout<<"enter the data "<<endl;
-    cin>>data;
+    cin >> data;
+    root = new node(data);    
 
-    root= new node(data);
-
-    if(data==-1){
-        return nullptr;
+    if(data == -1) {
+        return NULL;
     }
 
-    cout<<"the left data "<<data;
-    root->left= insert(root->left);
-    cout<<"the right data "<<endl;
-    root->right= insert(root->right);
-
-
+    cout << "Enter data for inserting in left of " << data << endl;
+    root->left = build(root->left);
+    cout << "Enter data for inserting in right of " << data << endl;
+    root->right = build(root->right);
     return root;
+
 }
-
-void level_order(node* &root){
-    if(root==NULL)
-    return ;
-
-    
-    queue<node*> q;
-    q.push(root);
-    while(!q.empty()){
-        node* node= q.front();
-        q.pop();
-
-       cout<<node->data<<" ";
-
-
-        if(node->left)
-        q.push(node->left);
-
-        if(node->right)
-        q.push(node->right);
-    }
-}
-
-void inorder(node* root){
-    if(root==NULL){
+void inorder(node* root) {
+    if(root == NULL) {
         return ;
     }
+
     inorder(root->left);
-    cout<<root->data<<" ";
+    cout << root-> data << " ";
     inorder(root->right);
+
 }
+void preorder(node* root) {
+    if(root == NULL) {
+        return ;
+    }
+    cout << root-> data << " ";
+    preorder(root->left);
+    preorder(root->right);
+
+}
+void postorder(node* root) {
+    if(root == NULL) {
+        return ;
+    }
+
+    postorder(root->left);
+    postorder(root->right);
+    cout << root-> data << " ";
+}
+
 int main()
 {
-    node* root=NULL;
-    insert(root);
-    inorder(root);
+    node* root = NULL;
+
+
+    build(root);
     cout<<endl;
-    level_order(root);
+    cout<<endl;
+    cout << "inorder traversal is:  "<<endl;
+    inorder(root); 
     cout<<endl;
 
+    cout<<"preorder traversal"<<endl;
+    preorder(root);
+    cout<<endl;
+
+    cout<<"post order traversal "<<endl;
+    postorder(root);
+    cout<<endl;
     return 0;
 }
+
+//  1 3 7 -1 -1 11 -1 -1 5 17 -1 -1 -1
+// 10 20 40 -1 -1 50 -1 -1 30 70 -1 -1 90 -1 -1 
